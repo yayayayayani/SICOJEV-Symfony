@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ActividadRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActividadRepository::class)]
 class Actividad
@@ -15,12 +16,18 @@ class Actividad
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank(message: 'Escribe el nombre de la actividad.')]
+    #[Assert\Length(max: 150, maxMessage: 'El nombre no puede superar {{ limit }} caracteres.')]
     private ?string $nombre = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Escribe el tipo de actividad.')]
+    #[Assert\Length(max: 50, maxMessage: 'El tipo no puede superar {{ limit }} caracteres.')]
     private ?string $tipo = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'Escribe el estado de la actividad.')]
+    #[Assert\Length(max: 30, maxMessage: 'El estado no puede superar {{ limit }} caracteres.')]
     private ?string $estado = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

@@ -12,10 +12,10 @@ class ActividadType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombre')
-            ->add('tipo')
-            ->add('estado')
-            ->add('motivoCancelacion')
+            ->add('nombre', null, ['label' => 'Nombre', 'attr' => ['maxlength' => 150]])
+            ->add('tipo', null, ['label' => 'Tipo', 'attr' => ['maxlength' => 50]])
+            ->add('estado', null, ['label' => 'Estado', 'attr' => ['maxlength' => 30]])
+            ->add('motivoCancelacion', null, ['label' => 'Motivo de cancelación', 'required' => false])
         ;
     }
 

@@ -24,15 +24,16 @@
                 <td>{{ actividad.estado }}</td>
             </tr>
             <tr>
-                <th>MotivoCancelación</th>
-                <td>{{ actividad.motivoCancelación }}</td>
+                <th>Motivo de cancelación</th>
+                <td>{{ actividad.motivoCancelacion ?? '—' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_actividad_index') }}">back to list</a>
+    <a href="{{ path('app_actividad_index') }}">Volver al listado</a>
 
-    <a href="{{ path('app_actividad_edit', {'id': actividad.id}) }}">edit</a>
-
-    {{ include('actividad/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TESORERO') %}
+        <a href="{{ path('app_actividad_edit', {'id': actividad.id}) }}">Editar</a>
+        {{ include('actividad/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

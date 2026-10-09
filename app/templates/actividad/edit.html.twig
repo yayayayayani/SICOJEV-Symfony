@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Actividad{% endblock %}
+{% block title %}Editar actividad | SICOJEV{% endblock %}
 
 {% block body %}
-    <h1>Edit Actividad</h1>
+    <h1>Editar actividad</h1>
 
-    {{ include('actividad/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('actividad/_form.html.twig', {'button_label': 'Guardar cambios'}) }}
 
-    <a href="{{ path('app_actividad_index') }}">back to list</a>
+    <a href="{{ path('app_actividad_index') }}">Volver al listado</a>
 
     {{ include('actividad/_delete_form.html.twig') }}
 {% endblock %}
