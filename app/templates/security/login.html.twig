@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}Iniciar sesión | SICOJEV{% endblock %}
+{% block body %}
+    <div class="acceso-distribucion">
+    <section class="acceso-presentacion">
+        <div class="marca"><span class="marca-icono" aria-hidden="true">S</span><span>SICOJEV<small>Esperanza Viva</small></span></div>
+        {% if identidad.logo %}<div class="logo-presentacion">{{ include('shared/_logo.html.twig', {clase: 'logo-acceso'}) }}</div>{% endif %}
+        <div><p class="sobrelinea">SOCIEDAD DE JÓVENES</p><h2>Juntos hacemos<br>más.</h2><p>Un lugar para organizar, compartir y servir.<br>La gestión de nuestra comunidad empieza aquí.</p></div>
+        <span class="acceso-pie">SJIEV · Eclesiastés 12:1</span>
+    </section>
+    <section class="tarjeta acceso">
+        <span class="icono-tarjeta" aria-hidden="true">↗</span>
+        <p class="sobrelinea">BIENVENIDO A SICOJEV</p>
+        <h1>Iniciar sesión</h1>
+        <p>Ingresa con tu cuenta de SICOJEV.</p>
+        {% if error %}
+            <p class="aviso aviso-error" role="alert">No se pudo iniciar sesión. Revisa tus credenciales o consulta al administrador si tu cuenta está habilitada.</p>
+        {% endif %}
+        <form method="post" action="{{ path('app_login') }}">
+            <label for="username">Correo electrónico o usuario</label>
+            <input type="text" value="{{ last_username }}" name="_username" id="username" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="tu.correo@ejemplo.com" maxlength="180" required autofocus>
+            <label for="password">Contraseña</label>
+            <input type="password" name="_password" id="password" autocomplete="current-password" required>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <button type="submit">Iniciar sesión</button>
+        </form>
+        <p class="ayuda-acceso">¿Necesitas una cuenta? Comunícate con el administrador de tu sociedad.</p>
+    </section>
+    </div>
+{% endblock %}

@@ -1,23 +1,43 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}SICOJEV{% endblock %}</title>
 
-        {% block javascripts %}
-        {% endblock %}
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+</head>
+<body class="{{ app.user ? 'sesion-activa' : 'pagina-acceso' }}">
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    {% if app.user %}
+        <header class="cabecera">
+            <a class="marca" href="{{ path('app_dashboard') }}">{{ include('shared/_logo.html.twig', {clase: 'logo-menu'}) }}<span>SICOJEV<small>Esperanza Viva</small></span></a>
 
-        {% set frankenphp_hot_reload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphp_hot_reload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphp_hot_reload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
-    </head>
-    <body>
+            <nav aria-label="Menú principal">
+                {% set ruta = app.request.attributes.get('_route') %}
+                <span class="nav-etiqueta">ESPACIO DE TRABAJO</span>
+                <a href="{{ path('app_dashboard') }}" {% if ruta == 'app_dashboard' %}aria-current="page"{% endif %}><span aria-hidden="true">⌂</span> Inicio</a>
+                <a href="{{ path('app_actividad_index') }}" {% if ruta starts with 'app_actividad_' %}aria-current="page"{% endif %}><span aria-hidden="true">▦</span> Actividades</a>
+            </nav>
+            <div class="perfil">
+                <span class="avatar" aria-hidden="true">{{ app.user.nombreCompleto|slice(0, 1)|upper }}</span>
+                <div><strong>{{ app.user.nombreCompleto }}</strong><small>{{ app.user.rol.nombre }}</small></div>
+                <a href="{{ logout_path() }}">Cerrar sesión</a>
+            </div>
+        </header>
+    {% endif %}
+
+    <main class="contenedor" id="contenido">
+        {% if app.user %}<div class="barra-superior"><span>Sociedad de Jóvenes <span class="separador">/</span> Gestión</span><span class="insignia">Esperanza Viva</span></div>{% endif %}
+        {% for tipo, mensajes in app.flashes %}
+            {% for mensaje in mensajes %}
+                <p class="aviso aviso-{{ tipo }}" role="status">{{ mensaje }}</p>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
-    </body>
+        {% if app.user %}<footer>SICOJEV <span>Organizados para servir mejor.</span></footer>{% endif %}
+    </main>
+</body>
 </html>

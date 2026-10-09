@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio | SICOJEV{% endblock %}
+
+{% block body %}
+    <section class="bienvenida">
+        <div><p class="sobrelinea">TU COMUNIDAD, MÁS CONECTADA</p>
+        <h1>Bienvenido,<br>{{ app.user.nombreCompleto }}</h1>
+        <p>Un espacio para organizar nuestras actividades<br>y seguir construyendo juntos.</p>
+        <a class="boton boton-claro" href="{{ path('app_actividad_index') }}">Explorar actividades <span aria-hidden="true">↗</span></a></div>
+        {% if identidad.logo %}
+            <div class="logo-bienvenida">{{ include('shared/_logo.html.twig', {clase: 'logo-inicio'}) }}</div>
+        {% else %}
+            <div class="ornamento" aria-hidden="true"><div class="orbita"></div><span class="ornamento-centro">EV</span><span class="ornamento-nota">Fe · Comunidad · Servicio</span></div>
+        {% endif %}
+    </section>
+
+    <div class="encabezado-seccion"><div><p class="sobrelinea">VISTA GENERAL</p><h2>Tu espacio de trabajo</h2></div><span class="texto-suave">Todo a un paso</span></div>
+
+    <section class="tarjetas">
+        <article class="tarjeta">
+            <span class="icono-tarjeta" aria-hidden="true">{{ app.user.nombreCompleto|slice(0, 1)|upper }}</span>
+            <h2>Mi cuenta</h2>
+            <p class="texto-suave">Tu perfil dentro de la comunidad.</p>
+            <dl class="datos-cuenta"><div><dt>Usuario</dt><dd>{{ app.user.username }}</dd></div><div><dt>Rol asignado</dt><dd><span class="insignia">{{ app.user.rol.nombre }}</span></dd></div></dl>
+        </article>
+
+        <article class="tarjeta">
+            <span class="icono-tarjeta icono-verde" aria-hidden="true">▦</span>
+            <h2>Actividades</h2>
+            <p class="texto-suave">Cada encuentro empieza con una buena organización. Consulta las actividades de nuestra sociedad.</p>
+            <a class="boton" href="{{ path('app_actividad_index') }}">
+                Ver actividades <span aria-hidden="true">→</span>
+            </a>
+        </article>
+    </section>
+{% endblock %}

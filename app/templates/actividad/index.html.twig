@@ -1,41 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Actividad index{% endblock %}
+{% block title %}Actividades | SICOJEV{% endblock %}
 
 {% block body %}
-    <h1>Actividad index</h1>
+    {% set puedeModificar = is_granted('ROLE_ADMIN')
+        or is_granted('ROLE_TESORERO') %}
 
-    <table class="table">
+    <div class="encabezado-pagina"><div><p class="sobrelinea">ENCUENTROS QUE NOS UNEN</p><h1>Actividades</h1><p class="texto-suave">Organiza y consulta las actividades de nuestra comunidad.</p></div>
+
+    {% if puedeModificar %}
+        <a class="boton" href="{{ path('app_actividad_new') }}">
+            <span aria-hidden="true">+</span> Crear actividad
+        </a>
+    {% endif %}
+    </div>
+
+    <section class="panel-tabla" aria-labelledby="titulo-listado">
+    <div class="titulo-tabla"><h2 id="titulo-listado">Registro de actividades</h2><span class="insignia">{{ actividads|length }} registradas</span></div>
+    <div class="tabla-scroll" role="region" aria-label="Listado de actividades" tabindex="0"><table>
         <thead>
             <tr>
-                <th>Id</th>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Tipo</th>
                 <th>Estado</th>
-                <th>MotivoCancelación</th>
-                <th>actions</th>
+                <th>Motivo de cancelación</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-        {% for actividad in actividads %}
-            <tr>
-                <td>{{ actividad.id }}</td>
-                <td>{{ actividad.nombre }}</td>
-                <td>{{ actividad.tipo }}</td>
-                <td>{{ actividad.estado }}</td>
-                <td>{{ actividad.motivoCancelación }}</td>
-                <td>
-                    <a href="{{ path('app_actividad_show', {'id': actividad.id}) }}">show</a>
-                    <a href="{{ path('app_actividad_edit', {'id': actividad.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for actividad in actividads %}
+                <tr>
+                    <td>{{ actividad.id }}</td>
+                    <td><strong>{{ actividad.nombre }}</strong></td>
+                    <td>{{ actividad.tipo }}</td>
+                    <td><span class="insignia">{{ actividad.estado }}</span></td>
+                    <td>{{ actividad.motivoCancelacion ?? '—' }}</td>
+                    <td class="acciones-tabla">
+                        <a href="{{ path('app_actividad_show', {id: actividad.id}) }}">
+                            Ver
+                        </a>
+
+                        {% if puedeModificar %}
+                            <a href="{{ path('app_actividad_edit', {id: actividad.id}) }}">
+                                Editar
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="estado-vacio"><span class="icono-tarjeta" aria-hidden="true">▦</span><h3>Todo empieza con un encuentro</h3><p>Aún no hay actividades registradas.</p>{% if puedeModificar %}<a href="{{ path('app_actividad_new') }}">Crea la primera actividad →</a>{% endif %}</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_actividad_new') }}">Create new</a>
+    </div></section>
 {% endblock %}

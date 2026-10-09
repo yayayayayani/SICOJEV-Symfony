@@ -1,0 +1,6 @@
+{% set logo = identidad.logo %}
+{% if logo %}
+    <img class="logo-sjiev {{ clase|default('') }}" src="{{ asset(logo) }}" alt="SJIEV — Sociedad de Jóvenes de la Iglesia Esperanza Viva. Eclesiastés 12:1" width="640" height="603">
+{% else %}
+    <span class="marca-icono" aria-hidden="true">S</span>
+{% endif %}
